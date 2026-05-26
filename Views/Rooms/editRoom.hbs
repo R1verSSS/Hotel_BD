@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Редактирование номера</title>
+</head>
+<body>
+    <h2>✏️ Редактирование номера {{room.RoomNumber}}</h2>
+    <form action="/rooms/postEdit" method="POST">
+        <input type="hidden" name="RoomId" value="{{room.RoomId}}">
+        
+        <label>Цена за ночь (₽):</label><br>
+        <input name="Price" type="number" step="0.01" value="{{room.Price}}" required><br><br>
+
+        <label>Статус:</label><br>
+        <select name="IsOccupied">
+            <option value="0" {{#if (eq room.IsOccupied 0)}}selected{{/if}}>Свободен</option>
+            <option value="1" {{#if (eq room.IsOccupied 1)}}selected{{/if}}>Занят</option>
+        </select><br><br>
+
+        <button type="submit">Обновить</button>
+    </form>
+    <p><a href="/rooms">← Назад к списку номеров</a></p>
+</body>
+</html>

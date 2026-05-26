@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Регистрация гостя</title>
+</head>
+<body>
+    <h2>👤 Регистрация нового гостя</h2>
+    <form action="/guests/postAdd" method="POST">
+        <label>ФИО:</label><br>
+        <input name="FullName" type="text" required><br><br>
+        
+        <label>Паспорт:</label><br>
+        <input name="Passport" type="text" required><br><br>
+        
+        <label>Телефон:</label><br>
+        <input name="Phone" type="tel" required><br><br>
+        
+        <label>Адрес:</label><br>
+        <input name="Address" type="text" required><br><br>
+        
+        <button type="submit">Добавить гостя</button>
+    </form>
+    <p><a href="/guests">← К списку гостей</a></p>
+</body>
+</html>

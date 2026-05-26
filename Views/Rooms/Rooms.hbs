@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Номера</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+<header><div class="container header-inner"><a href="/" class="logo">Отель</a><button class="burger-btn" type="button"><i class="fas fa-bars"></i></button><button class="theme-toggle" type="button"><i class="fas fa-moon"></i></button><nav class="nav-menu"><a href="/rooms">Номера</a><a href="/guests">Гости</a><a href="/about">О системе</a><a href="/bookings/getCart" class="btn-cart">Бронирование {{#if cartLen}}({{cartLen}}){{/if}}</a></nav></div></header>
+<main class="cart-page"><div class="container">
+  <h1 class="page-title">Номерной фонд</h1>
+  <form class="rooms-filters" action="/rooms" method="GET">
+    <div class="filter-group"><label for="type-select">Тип номера</label><select class="filter-control" name="typeId" id="type-select"><option value="0">Все типы</option>{{#each RoomTypes}}<option value="{{this.TypeId}}">{{this.TypeName}}</option>{{/each}}</select></div>
+    {{#if curTypeId}}<div class="filter-group"><label for="feat-select">Оснащение</label><select class="filter-control" name="featureId" id="feat-select"><option value="0">Все</option>{{#each RoomFeatures}}<option value="{{this.FeatureId}}">{{this.FeatureName}}</option>{{/each}}</select></div>{{/if}}
+    <button type="submit" class="filter-reset">Фильтровать</button>
+    <a href="/rooms/add" class="btn-primary full-width">+ Добавить номер</a>
+  </form>
+  <div class="rooms-grid">
+    {{#each Rooms}}
+    <div class="room-card">
+      <img src="{{roomImage this.TypeName}}" alt="{{this.TypeName}}">
+      <div class="room-info">
+        <h3 class="room-title">{{this.TypeName}} №{{this.RoomNumber}}</h3>
+        <div class="room-capacity"><i class="fas fa-star"></i> {{this.FeatureName}}</div>
+        <div class="room-price">{{money this.Price}} <span class="price-period">за ночь</span></div>
+        <div class="room-capacity"><i class="fas fa-circle"></i> {{#if this.IsOccupied}}Занят{{else}}Свободен{{/if}}</div>
+        {{#unless this.IsOccupied}}<a href="/bookings/addToCart/{{this.RoomId}}" class="room-btn">В бронь</a>{{/unless}}
+        <p style="margin-top:12px"><a href="/rooms/edit/{{this.RoomId}}">Редактировать</a></p>
+        <form action="/rooms/delete/{{this.RoomId}}" method="POST"><button class="filter-reset" type="submit" onclick="return confirm('Удалить номер?')">Удалить</button></form>
+      </div>
+    </div>
+    {{/each}}
+  </div>
+  <p style="margin-top:24px">В корзине: <b>{{cartLen}}</b> | <a href="/bookings/getCart">Оформить заселение</a> | <a href="/guests">Гости</a></p>
+</div></main>
+<script>const typeSel=document.getElementById('type-select'); if('{{curTypeId}}'&&'{{curTypeId}}'!='undefined') typeSel.value='{{curTypeId}}'; const featSel=document.getElementById('feat-select'); if('{{curFeatureId}}'&&'{{curFeatureId}}'!='undefined'&&featSel) featSel.value='{{curFeatureId}}';</script>
+<script src="/js/script.js"></script>
+</body></html>
